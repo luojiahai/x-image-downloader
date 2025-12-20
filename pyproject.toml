@@ -1,0 +1,22 @@
+[project]
+name = "gettweets"
+version = "0.1.0"
+description = "Download tweets with images from X (Twitter) API"
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "tweepy>=4.14.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.poetry.scripts]
+gettweets = "gettweets:main"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
