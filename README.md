@@ -1,4 +1,4 @@
-# GetTweets - Twitter/X Image Downloader
+# x-image-downloader - Twitter/X Image Downloader
 
 A Python CLI tool to download tweets with images from X (formerly Twitter) using the Twitter API.
 
@@ -33,26 +33,26 @@ cp .env.example .env
 
 ```bash
 # Download tweets from a user (saves to 'downloads' folder by default)
-poetry run gettweets <username>
+poetry run xid <username>
 
 # Specify a custom output directory
-poetry run gettweets <username> <output_directory>
+poetry run xid <username> <output_directory>
 
 # Only fetch tweets since a specific date (yyyy-mm-dd format)
-poetry run gettweets <username> <output_directory> <start_date>
+poetry run xid <username> <output_directory> <start_date>
 ```
 
 ### Examples
 
 ```bash
 # Download images from @elonmusk's tweets
-poetry run gettweets elonmusk
+poetry run xid elonmusk
 
 # Save to a custom folder
-poetry run gettweets nasa nasa_images
+poetry run xid nasa nasa_images
 
 # Download tweets only since a specific date
-poetry run gettweets nasa nasa_images 2025-01-15
+poetry run xid nasa nasa_images 2025-01-15
 ```
 
 ## Output Structure

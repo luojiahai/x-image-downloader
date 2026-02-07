@@ -224,10 +224,10 @@ def get_tweets_with_images(username, output_dir="downloads", start_date=None):
 def main():
     """Main entry point for the CLI."""
     if len(sys.argv) < 2:
-        print("Usage: gettweets <username> [output_directory] [start_date]")
-        print("\nExample: gettweets elonmusk")
-        print("         gettweets elonmusk my_downloads")
-        print("         gettweets elonmusk my_downloads 2025-01-15")
+        print("Usage: xid <username> [output_directory] [start_date]")
+        print("\nExample: xid elonmusk")
+        print("         xid elonmusk my_downloads")
+        print("         xid elonmusk my_downloads 2025-01-15")
         sys.exit(1)
     
     username = sys.argv[1]

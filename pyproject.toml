@@ -1,5 +1,5 @@
 [project]
-name = "gettweets"
+name = "xid"
 version = "0.1.0"
 description = "Download tweets with images from X (Twitter) API"
 authors = [
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [tool.poetry.scripts]
-gettweets = "gettweets:main"
+xid = "xid:main"
 
 
 [build-system]
