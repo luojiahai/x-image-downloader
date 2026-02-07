@@ -60,21 +60,20 @@ def save_tweet_content_v2(tweet, folder_path, username, image_urls=None):
         f.write(f"Author: @{username}\n")
         f.write(f"Text:\n{tweet.text}\n")
         
-        if hasattr(tweet, 'public_metrics') and tweet.public_metrics:
-            metrics = tweet.public_metrics
-            f.write(f"\nLikes: {metrics.get('like_count', 0)}\n")
-            f.write(f"Retweets: {metrics.get('retweet_count', 0)}\n")
-            f.write(f"Replies: {metrics.get('reply_count', 0)}\n")
-            f.write(f"Quotes: {metrics.get('quote_count', 0)}\n")
-        
         if image_urls:
             f.write(f"\nImage URLs:\n")
             for idx, url in enumerate(image_urls, 1):
                 f.write(f"  {idx}. {url}\n")
 
 
-def get_tweets_with_images(username, output_dir="downloads"):
-    """Fetch tweets from a user and download images."""
+def get_tweets_with_images(username, output_dir="downloads", start_date=None):
+    """Fetch tweets from a user and download images.
+    
+    Args:
+        username: Twitter username to fetch tweets from
+        output_dir: Directory to save downloaded content
+        start_date: Optional date in yyyy-mm-dd format to only fetch tweets since this date
+    """
     # Load environment variables
     load_dotenv()
     
@@ -115,15 +114,23 @@ def get_tweets_with_images(username, output_dir="downloads"):
         max_tweets = 200
         
         while tweets_processed < max_tweets:
-            response = client.get_users_tweets(
-                id=user_id,
-                max_results=100,  # Max per request in API v2
-                exclude=['retweets', 'replies'],
-                tweet_fields=['created_at', 'public_metrics', 'attachments'],
-                media_fields=['type', 'url', 'width', 'height'],
-                expansions=['attachments.media_keys'],
-                pagination_token=pagination_token
-            )
+            # Prepare request parameters
+            request_params = {
+                'id': user_id,
+                'max_results': 100,  # Max per request in API v2
+                'exclude': ['retweets', 'replies'],
+                'tweet_fields': ['created_at', 'attachments'],
+                'media_fields': ['type', 'url', 'width', 'height'],
+                'expansions': ['attachments.media_keys'],
+                'pagination_token': pagination_token
+            }
+            
+            # Add start_time filter if date was provided
+            if start_date:
+                # Convert yyyy-mm-dd to ISO 8601 format (yyyy-mm-ddT00:00:00Z)
+                request_params['start_time'] = f"{start_date}T00:00:00Z"
+            
+            response = client.get_users_tweets(**request_params)
             
             if not response.data:
                 break
@@ -217,13 +224,15 @@ def get_tweets_with_images(username, output_dir="downloads"):
 def main():
     """Main entry point for the CLI."""
     if len(sys.argv) < 2:
-        print("Usage: gettweets <username> [output_directory]")
+        print("Usage: gettweets <username> [output_directory] [start_date]")
         print("\nExample: gettweets elonmusk")
         print("         gettweets elonmusk my_downloads")
+        print("         gettweets elonmusk my_downloads 2025-01-15")
         sys.exit(1)
     
     username = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else "downloads"
+    start_date = sys.argv[3] if len(sys.argv) > 3 else None
     
-    get_tweets_with_images(username, output_dir)
+    get_tweets_with_images(username, output_dir, start_date)
 

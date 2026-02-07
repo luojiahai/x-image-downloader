@@ -37,6 +37,9 @@ poetry run gettweets <username>
 
 # Specify a custom output directory
 poetry run gettweets <username> <output_directory>
+
+# Only fetch tweets since a specific date (yyyy-mm-dd format)
+poetry run gettweets <username> <output_directory> <start_date>
 ```
 
 ### Examples
@@ -47,6 +50,9 @@ poetry run gettweets elonmusk
 
 # Save to a custom folder
 poetry run gettweets nasa nasa_images
+
+# Download tweets only since a specific date
+poetry run gettweets nasa nasa_images 2025-01-15
 ```
 
 ## Output Structure
